@@ -11,6 +11,6 @@ module Clockwork
   end
 
   every(1.day, 'docusign_status_updates', at: '04:00') do
-    DocusignStatusUpdatesJob.perform_async
+    RunNeatoJob.perform
   end
 end
