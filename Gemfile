@@ -61,5 +61,14 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+# Neato
+gem 'botvac', '~> 0.1.0'
+
+# Clockwork
+gem 'clockwork', '~> 2.0', '>= 2.0.4'
+
+# Debugging
+gem 'pry-rails', '~> 0.3.9'
+
 # Sidekiq
 gem 'sidekiq', '~> 6.0', '>= 6.0.7'
