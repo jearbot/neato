@@ -69,3 +69,6 @@ gem 'clockwork', '~> 2.0', '>= 2.0.4'
 
 # Debugging
 gem 'pry-rails', '~> 0.3.9'
+
+# Sidekiq
+gem 'sidekiq', '~> 6.0', '>= 6.0.7'
