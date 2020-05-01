@@ -1,3 +1,1 @@
-class NeatoController < ApplicationController
-  
-end
+class NeatoController < ApplicationController; end
