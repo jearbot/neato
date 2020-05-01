@@ -1,0 +1,3 @@
+class NeatoController < ApplicationController
+  
+end

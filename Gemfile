@@ -72,3 +72,6 @@ gem 'pry-rails', '~> 0.3.9'
 
 # Sidekiq
 gem 'sidekiq', '~> 6.0', '>= 6.0.7'
+
+# Linting
+gem 'rubocop'
