@@ -73,3 +73,8 @@ gem 'sidekiq', '~> 6.0', '>= 6.0.7'
 
 # Linting
 gem 'rubocop'
+
+# Postgres
+gem 'pg'
+gem 'pg_search', '< 1.0'
+gem "pgrel", "~>0.1"
