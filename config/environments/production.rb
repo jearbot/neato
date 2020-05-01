@@ -91,4 +91,11 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Rails config vars
+  config.client_id = ENV["CLIENT_ID"]
+  config.redirect_uri = ENV["REDIRECT_UR"]
+  config.serial_number = ENV["SERIAL_NUMBER"]
+  config.secret = ENV["SECRET"]
+  config.client_secret_key = ENV["CLIENT_SECRET_KEY"]
 end
