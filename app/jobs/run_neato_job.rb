@@ -5,6 +5,8 @@ class RunNeatoJob < ApplicationJob
   SECRET = Rails.application.config.secret.freeze
 
   def perform
+    authenticate
+
     require 'net/http'
     require 'uri'
     require 'json'
@@ -14,7 +16,7 @@ class RunNeatoJob < ApplicationJob
     request.content_type = "application/x-www-form-urlencoded; charset=UTF-8"
     request["Connection"] = "keep-alive"
     request["Accept"] = "application/vnd.neato.nucleo.v1"
-    request["Authorization"] = "NEATOAPP #{authentication_token}"
+    request["Authorization"] = "NEATOAPP " + @signature
     request["X-Date"] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S GMT")
     request["User-Agent"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Safari/537.36"
     request["Origin"] = "https://developers.neatorobotics.com"
@@ -46,7 +48,7 @@ class RunNeatoJob < ApplicationJob
 
   private
 
-  def authentication_token
+  def authenticate
     require 'openssl'
 
     # request params
@@ -60,6 +62,6 @@ class RunNeatoJob < ApplicationJob
     string_to_sign = "#{robot_serial.downcase}\n#{date}\n#{body}"
 
     # create signature with SHA256
-    signature = OpenSSL::HMAC.hexdigest('sha256', robot_secret_key, string_to_sign)
+    @signature = OpenSSL::HMAC.hexdigest('sha256', robot_secret_key, string_to_sign)
   end
 end
