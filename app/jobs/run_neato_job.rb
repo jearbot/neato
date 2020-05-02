@@ -14,7 +14,7 @@ class RunNeatoJob < ApplicationJob
     request.content_type = "application/x-www-form-urlencoded; charset=UTF-8"
     request["Connection"] = "keep-alive"
     request["Accept"] = "application/vnd.neato.nucleo.v1"
-    request["Authorization"] = "NEATOAPP 462ef2e25e0cdead874de26d9b06c2fe547be9c1d04b51a79ce17fd34465125c"
+    request["Authorization"] = "NEATOAPP #{authentication_token}"
     request["X-Date"] = Time.zone.now
     request["User-Agent"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Safari/537.36"
     request["Origin"] = "https://developers.neatorobotics.com"
@@ -40,5 +40,22 @@ class RunNeatoJob < ApplicationJob
     response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
       http.request(request)
     end
+  end
+
+  def authentication_token
+    require 'openssl'
+
+    # request params
+    robot_serial = SERIAL
+    date = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S GMT")
+    # => "Fri, 03 Apr 2015 09:12:31 GMT"
+    body = '{"reqId":"77", "cmd":"getRobotState"}'
+    robot_secret_key = SECRET
+
+    # build string to be signed
+    string_to_sign = "#{robot_serial.downcase}\n#{date}\n#{body}"
+
+    # create signature with SHA256
+    signature = OpenSSL::HMAC.hexdigest('sha256', robot_secret_key, string_to_sign)
   end
 end
