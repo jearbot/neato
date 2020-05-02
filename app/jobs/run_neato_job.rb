@@ -42,6 +42,8 @@ class RunNeatoJob < ApplicationJob
     end
   end
 
+  private
+  
   def authentication_token
     require 'openssl'
 
