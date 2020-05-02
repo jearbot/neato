@@ -14,8 +14,8 @@ class RunNeatoJob < ApplicationJob
     request.content_type = "application/x-www-form-urlencoded; charset=UTF-8"
     request["Connection"] = "keep-alive"
     request["Accept"] = "application/vnd.neato.nucleo.v1"
-    request["Authorization"] = "NEATOAPP 5d44e457bb655a9035e148bb13ecfdb75cfe6bd0903f97ead5e32ed6493363ab"
-    request["X-Date"] = "Fri, 01 May 2020 23:42:05 GMT"
+    request["Authorization"] = "NEATOAPP 462ef2e25e0cdead874de26d9b06c2fe547be9c1d04b51a79ce17fd34465125c"
+    request["X-Date"] = Time.zone.now
     request["User-Agent"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.113 Safari/537.36"
     request["Origin"] = "https://developers.neatorobotics.com"
     request["Sec-Fetch-Site"] = "cross-site"
