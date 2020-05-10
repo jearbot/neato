@@ -79,3 +79,9 @@ gem 'pg'
 gem 'pg_search', '< 1.0'
 gem "pgrel", "~>0.1"
 gem 'rake', '~> 13.0', '>= 13.0.1'
+
+# HTTP
+gem 'httparty'
+
+# oAuth
+gem 'oauth'
