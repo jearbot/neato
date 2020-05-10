@@ -11,17 +11,23 @@ class RunNeatoJob < ApplicationJob
   SERIAL = Rails.application.config.serial_number.freeze
   SECRET = Rails.application.config.secret.freeze
   API_ENDPOINT = "https://nucleo.neatocloud.com:4443".freeze
+  URL = "https://nucleo.neatocloud.com:4443/vendors/neato/robots/"
   CLIENT_ID = Rails.application.config.client_id.freeze
   CLIENT_SECRET_KEY = Rails.application.config.client_secret_key.freeze
 
   def perform
     authenticate
     oauth_token
-    binding.pry
 
-
-
-
+    response = HTTParty.post("#{URL}#{SERIAL}/messages",
+      headers: {
+        'Accept' => 'application/vnd.neato.nucleo.v1',
+        'Name' => SERIAL,
+        'Date' => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S GMT"),
+        'Authorization' =>  "NEATOAPP " + @token
+      },
+      body: '{"reqId":"1","cmd":"startCleaning","params":{"category":2,"mode":2,"navigationMode":1}}'
+    )
 
 
 
@@ -40,15 +46,15 @@ class RunNeatoJob < ApplicationJob
     # request["Sec-Fetch-Dest"] = "empty"
     # request["Referer"] = "https://developers.neatorobotics.com/demo/sdk-js/index.html"
     # request["Accept-Language"] = "en-US,en;q=0.9"
-    # request.body = JSON.dump({
-    #   "reqId" => "1",
-    #   "cmd" => "startCleaning",
-    #   "params" => {
-    #     "category" => 2,
-    #     "mode" => 2,
-    #     "navigationMode" => 1
-    #   }
-    # })
+    request.body = JSON.dump({
+      "reqId" => "1",
+      "cmd" => "startCleaning",
+      "params" => {
+        "category" => 2,
+        "mode" => 2,
+        "navigationMode" => 1
+      }
+    })
 
     # req_options = {
     #   use_ssl: uri.scheme == "https",
@@ -78,9 +84,7 @@ class RunNeatoJob < ApplicationJob
   end
 
   def oauth_token
-    @client = OAuth::Consumer.new(Rails.application.config.client_id, Rails.application.config.client_secret_key, { :site=> API_ENDPOINT })
-    @access_token = OAuth::AccessToken.new(@consumer, auth['token'], auth['token_secret'])
-
-
+    @client = OAuth::Consumer.new(CLIENT_ID, CLIENT_SECRET_KEY, { :site=> API_ENDPOINT })
+    @access_token = OAuth::AccessToken.new(@client, @client.key, @client.secret)
   end
 end
