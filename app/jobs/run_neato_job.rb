@@ -8,11 +8,11 @@ class RunNeatoJob < ApplicationJob
   # SERIAL = Rails.application.config.serial_number.freeze
   # SECRET = Rails.application.config.secret.freeze
 
-  SERIAL = Rails.config.serial_number
-  SECRET = Rails.config.secret
+  SERIAL = Rails.application.config.serial_number.freeze
+  SECRET = Rails.application.config.secret.freeze
   API_ENDPOINT = "https://nucleo.neatocloud.com:4443".freeze
-  CLIENT_ID = Rails.config.client_id
-  CLIENT_SECRET_KEY = Rails.config.client_secret_key
+  CLIENT_ID = Rails.config.client_id.freeze
+  CLIENT_SECRET_KEY = Rails.application.config.client_secret_key.freeze
 
   def perform
     authenticate
@@ -78,7 +78,8 @@ class RunNeatoJob < ApplicationJob
   end
 
   def oauth_token
-    @client = OAuth::Consumer.new(Rails.config.client_id, Rails.config.client_secret_key, { :site=> API_ENDPOINT })
+    @client = OAuth::Consumer.new(Rails.application.config.client_id, Rails.application.config.client_secret_key, { :site=> API_ENDPOINT })
+    @access_token = OAuth::AccessToken.new(@consumer, auth['token'], auth['token_secret'])
 
 
   end
