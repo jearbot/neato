@@ -18,7 +18,7 @@ class RunNeatoJob < ApplicationJob
 
   def perform
     authenticate
-    oauth_token
+    oauth
 
     response = HTTParty.post("#{URL}#{SERIAL}/messages",
       headers: {
@@ -47,7 +47,7 @@ class RunNeatoJob < ApplicationJob
     @token = OpenSSL::HMAC.hexdigest('sha256', robot_secret_key, string_to_sign)
   end
 
-  def oauth_token
+  def oauth
     @client = OAuth::Consumer.new(CLIENT_ID, CLIENT_SECRET_KEY, { :site=> API_ENDPOINT })
     @access_token = OAuth::AccessToken.new(@client, @client.key, @client.secret)
   end
