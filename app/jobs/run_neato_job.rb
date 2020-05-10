@@ -11,7 +11,7 @@ class RunNeatoJob < ApplicationJob
   SERIAL = Rails.application.config.serial_number.freeze
   SECRET = Rails.application.config.secret.freeze
   API_ENDPOINT = "https://nucleo.neatocloud.com:4443".freeze
-  CLIENT_ID = Rails.config.client_id.freeze
+  CLIENT_ID = Rails.application.config.client_id.freeze
   CLIENT_SECRET_KEY = Rails.application.config.client_secret_key.freeze
 
   def perform
