@@ -23,7 +23,7 @@ class RunNeatoJob < ApplicationJob
         'Accept' => API_ENDPOINT,
         # 'Name' => SERIAL,
         # 'Date' => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S GMT"),
-        'Authorization' =>  "Bearer " +
+        'Authorization' =>  "Bearer " + ""
       },
       # body: '{"reqId":"1","cmd":"startCleaning","params":{"category":2,"mode":2,"navigationMode":1}}'
     )
