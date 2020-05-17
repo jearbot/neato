@@ -86,3 +86,4 @@ gem 'httparty'
 # oAuth
 gem 'oauth'
 gem 'oauth2'
+gem 'oauth2-client'

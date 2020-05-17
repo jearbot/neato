@@ -47,15 +47,15 @@ class RunNeatoJob < ApplicationJob
 
   def oauth
     @client = OAuth::Consumer.new(CLIENT_ID, CLIENT_SECRET_KEY, { :site=> API_ENDPOINT })
-    @access_token = OAuth::AccessToken.new(@client, @client.key, @client.secret)
+    @access_token = OAuth2::AccessToken.new(@client, @client.key, @client.secret)
   end
 
   def oauth2
-    client = OAuth2::Client.new(CLIENT_ID, CLIENT_SECRET_KEY, :site => URL)
+    @client = OAuth2::Client.new(CLIENT_ID, CLIENT_SECRET_KEY, :site => URL)
 
     client.auth_code.authorize_url(:redirect_uri => REDIRECT_URI)
 
-    token = client.auth_code.get_token('authorization_code_value', :redirect_uri => REDIRECT_URI, :headers => {'Authorization' => 'Basic some_password'})
+    token = client.auth_code.get_token(:redirect_uri => REDIRECT_URI, :headers => {'Authorization' => 'Basic some_password'})
     response = token.get('/api/resource', :params => { 'query_foo' => 'bar' })
     response.class.name
   end
