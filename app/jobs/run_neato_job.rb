@@ -16,7 +16,7 @@ class RunNeatoJob < ApplicationJob
 
   def perform
     oauth2
-
+    use_authorization_grant
     get_token
 
     response = HTTParty.get("#{URL}/users/me",
@@ -35,7 +35,11 @@ class RunNeatoJob < ApplicationJob
 
     response = @client.auth_code.authorize_url(:redirect_uri => REDIRECT_URI, :scope => SCOPE)
 
-    response.gsub!('/oauth/','/oauth2/')
+    @response = response.gsub!('/oauth/','/oauth2/')
+  end
+
+  def use_authorization_grant
+
   end
 
   def get_token

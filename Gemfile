@@ -87,6 +87,3 @@ gem 'httparty'
 gem 'oauth'
 gem 'oauth2'
 gem 'oauth2-client'
-
-# ID generation
-gem 'securerandom'
