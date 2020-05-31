@@ -84,6 +84,5 @@ gem 'rake', '~> 13.0', '>= 13.0.1'
 gem 'httparty'
 
 # oAuth
-gem 'oauth'
 gem 'oauth2'
-gem 'oauth2-client'
+
