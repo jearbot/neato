@@ -59,9 +59,6 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-# Neato
-gem 'botvac', '~> 0.1.0'
-
 # Clockwork
 gem 'clockwork', '~> 2.0', '>= 2.0.4'
 
@@ -82,7 +79,7 @@ gem 'rake', '~> 13.0', '>= 13.0.1'
 
 # HTTP
 gem 'httparty'
-
+gem 'curb', '~> 0.9.10'
 # oAuth
 gem 'oauth2'
 
