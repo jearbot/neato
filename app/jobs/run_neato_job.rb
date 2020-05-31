@@ -1,9 +1,6 @@
 class RunNeatoJob < ApplicationJob
   queue_as :default
   require 'oauth2'
-  require 'net/http'
-  require 'net/https'
-  require 'uri'
 
   SERIAL = Rails.application.config.serial_number.freeze
   SECRET = Rails.application.config.secret.freeze
@@ -14,10 +11,11 @@ class RunNeatoJob < ApplicationJob
   REDIRECT_URI = "https://atx.luac.es".freeze
   SCOPE = 'control_robots'.freeze
   NEATO_URL = "https://apps.neatorobotics.com/".freeze
+  ACCESS_TOKEN = "83873c2c3f8a3feaa67e2299febca97b10bbf730ec36bc636dce0bc54fae8799".freeze
+  REFRESH_TOKEN = "0b57b42b4fb44b515ddcc545602896836538a0f56162383938af227c8582e646".freeze
 
   def perform
     oauth2
-    # use_authorization_grant(oauth2)
     get_token
 
     response = HTTParty.get("#{URL}/users/me",
@@ -37,12 +35,9 @@ class RunNeatoJob < ApplicationJob
     response = @client.auth_code.authorize_url(:redirect_uri => REDIRECT_URI, :scope => SCOPE)
 
     response = response.gsub!('/oauth/','/oauth2/')
-
-    use_authorization_grant(response)
   end
 
-  def use_authorization_grant(url)
-    response = HTTParty.get(url, follow_redirects: false)
+  def refresh_token
   end
 
   def get_token
@@ -52,13 +47,10 @@ class RunNeatoJob < ApplicationJob
         "client_id": CLIENT_ID,
         "client_secret": CLIENT_SECRET_KEY,
         "redirect_uri": REDIRECT_URI,
-        "code": "c6ca1854210ba77e48cbdb3ddb0940ae8083fe36e07534c42dae3f28e77dcf2c"
+        "code": "6bf5c97e69208edf892ad72dcc92679a0e3c91e271121c22f0726bf092845c45"
         }
     )
 
     @token = response["access_token"]
   end
 end
-
-# 'Name' => SERIAL,
-# 'Date' => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S GMT"),

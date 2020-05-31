@@ -79,7 +79,7 @@ gem 'rake', '~> 13.0', '>= 13.0.1'
 
 # HTTP
 gem 'httparty'
-gem 'curb', '~> 0.9.10'
+
 # oAuth
 gem 'oauth2'
 
