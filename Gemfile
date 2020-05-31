@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.5.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.4', '>= 5.2.4.2'
+gem 'rails', '~> 5.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
@@ -75,7 +75,7 @@ gem 'rubocop'
 gem 'pg'
 gem 'pg_search', '< 1.0'
 gem "pgrel", "~>0.1"
-gem 'rake', '~> 13.0', '>= 13.0.1'
+gem 'rake', '~> 10.0'
 
 # HTTP
 gem 'httparty'
@@ -83,6 +83,8 @@ gem 'httparty'
 # oAuth
 gem 'oauth2'
 
-# # deletion persistance
-# gem 'paranoid', '~> 0.0.7'
+# bundler
+gem 'bundler', '~> 2.0'
 
+# deletion persistance
+gem 'paranoia', '~> 2.4', '>= 2.4.2'

@@ -1,3 +1,5 @@
 class RefreshToken < ApplicationRecord
-  validates :key, presence: true 
+  acts_as_paranoid
+  
+  validates :key, presence: true
 end
