@@ -11,8 +11,6 @@ class RunNeatoJob < ApplicationJob
   REDIRECT_URI = "https://atx.luac.es".freeze
   SCOPE = 'control_robots'.freeze
   NEATO_URL = "https://apps.neatorobotics.com/".freeze
-  ACCESS_TOKEN = "83873c2c3f8a3feaa67e2299febca97b10bbf730ec36bc636dce0bc54fae8799".freeze
-  REFRESH_TOKEN = "0b57b42b4fb44b515ddcc545602896836538a0f56162383938af227c8582e646".freeze
 
   def perform
     oauth2
