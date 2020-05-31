@@ -85,3 +85,4 @@ gem 'oauth2'
 
 # # deletion persistance
 # gem 'paranoid', '~> 0.0.7'
+
