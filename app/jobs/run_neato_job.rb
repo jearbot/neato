@@ -1,5 +1,7 @@
 class RunNeatoJob < ApplicationJob
   def perform
+    Rails.logger.info("Running RunNeatoJob inside job")
+
     @date = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S GMT")
 
     get_signature
