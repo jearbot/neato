@@ -13,10 +13,10 @@ gem 'puma', '~> 3.11'
 gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .coffee assets and views
-# gem 'coffee-rails', '~> 4.2'
+gem 'coffee-rails', '~> 4.2'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-# gem 'jbuilder', '~> 2.5'
+gem 'jbuilder', '~> 2.5'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -56,7 +56,6 @@ gem 'rubocop'
 gem 'pg'
 gem 'pg_search', '< 1.0'
 gem "pgrel", "~>0.1"
-
 
 # HTTP
 gem 'httparty'
