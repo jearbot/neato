@@ -1,6 +1,4 @@
 class RunNeatoJob < ApplicationJob
-  include Sidekiq::Worker
-
   require 'oauth2'
   require 'openssl'
 
