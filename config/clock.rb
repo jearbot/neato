@@ -7,9 +7,7 @@ module Clockwork
     config[:sleep_timeout] = 10
   end
 
-  every(1.day, 'RunNeatoJob', at: '23:30') do # 04:00
-    Rails.logger.info("Running RunNeatoJob")
-
+  every(1.day, 'RunNeatoJob', at: '04:00') do
     RunNeatoJob.perform_now
   end
 

@@ -1,7 +1,5 @@
 class RunNeatoJob < ApplicationJob
   def perform
-    Rails.logger.info("Running RunNeatoJob inside job")
-
     @date = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S GMT")
 
     get_signature
@@ -23,6 +21,5 @@ class RunNeatoJob < ApplicationJob
     string_to_sign = "#{AccessToken::ROBOT_SERIAL.downcase}\n#{@date}\n#{body}"
 
     @signature = OpenSSL::HMAC.hexdigest('sha256', AccessToken::ROBOT_SECRET, string_to_sign)
-    Rails.logger.info("RunNeatoJob got signature: #{@signature}")
   end
 end
