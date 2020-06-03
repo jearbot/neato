@@ -1,31 +1,20 @@
-class RunNeatoJob < ApplicationJob
+class RefreshTokenJob < ApplicationJob
   require 'oauth2'
   require 'openssl'
 
-  ROBOT_SERIAL = Rails.application.config.serial_number.freeze
-  ROBOT_SECRET = Rails.application.config.secret.freeze
-  HEADER_URL = "application/vnd.neato.beehive.v1+json".freeze
-  API_ENDPOINT = "https://beehive.neatocloud.com/oauth2/token".freeze
-  CLIENT_ID = Rails.application.config.client_id.freeze
-  CLIENT_SECRET_KEY = Rails.application.config.client_secret_key.freeze
-  REDIRECT_URI = "https://atx.luac.es".freeze
-  SCOPE = 'control_robots public_profile maps'.freeze
-  NEATO_API_ENDPOINT = "https://apps.neatorobotics.com/".freeze
-  ACCESS_TOKEN = AccessToken.last.key
-  REFRESH_TOKEN = RefreshToken.last.key
-
   def perform
-    @date = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S GMT")
+    def refresh_token
+      response = HTTParty.post(BEEHIVE_API_ENDPOINT,
+      body: {
+        "grant_type": "refresh_token",
+        "refresh_token": REFRESH_TOKEN
+        }
+      )
 
-    get_signature
-    response = HTTParty.post("https://nucleo.neatocloud.com:4443/vendors/neato/robots/#{ROBOT_SERIAL}/messages",
-      headers: {
-        'Accept' => 'application/vnd.neato.nucleo.v1',
-        'Date' => @date,
-        'Authorization' =>  "NEATOAPP " + @signature,
-      },
-      body: JSON.dump({ reqId: "13", cmd: "startCleaning", params: { category: 4, mode: 2, navigationMode: 1, mapId: '2020-03-08T15:36:19Z' }})
-    )
+      AccessToken.
+      AccessToken.create(key: key)
+    end
+
   end
 
   private
@@ -97,19 +86,11 @@ end
   end
   # move to a new job to refresh every x days
   # put expiration on token and run this job
-  def refresh_token
-    response = HTTParty.post(BEEHIVE_API_ENDPOINT,
-    body: {
-      "grant_type": "refresh_token",
-      "refresh_token": REFRESH_TOKEN
-      }
-    )
-  end
 
   # move to a new utility maybe or to the access token model
 
   def get_access_token
-    response = HTTParty.post(BEEHIVE_API_ENDPOINT,
+    response = HTTParty.post(API_ENDPOINT,
       body: {
         "grant_type": "authorization_code",
         "client_id": CLIENT_ID,

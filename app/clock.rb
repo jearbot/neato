@@ -10,7 +10,7 @@ module Clockwork
     config[:sleep_timeout] = 10
   end
 
-  every(1.day, 'docusign_status_updates', at: '04:00') do
-    RunNeatoJob.perform
+  every(1.day, 'RunNeatoJob', at: '04:00') do
+    RunNeatoJob.perform_now
   end
 end
