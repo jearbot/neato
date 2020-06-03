@@ -59,6 +59,9 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  # Redis
+  ENV["REDISTOGO_URL"] = ' redis://redistogo:296d801adfbbde55869efaad02cd97b2@hammerjaw.redistogo.com:11766/'
+
   # Rails config vars
   config.client_id = ENV["CLIENT_ID"]
   config.redirect_uri = ENV["REDIRECT_UR"]
