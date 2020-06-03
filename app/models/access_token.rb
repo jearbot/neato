@@ -35,7 +35,7 @@ class AccessToken < ApplicationRecord
         "code": auth_key
       }
     )
-  ends
+  end
 
   def self.get_robot_secret_key
     response = HTTParty.get("#{NEATO_API_ENDPOINT}/users/me/robots",
