@@ -47,6 +47,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # Clockwork
 gem 'clockwork', '~> 2.0', '>= 2.0.4'
 
+# Sidekiq
+gem 'sidekiq', '~> 6.0', '>= 6.0.7'
+
 # Linting
 gem 'rubocop'
 gem 'mocha', '~> 0.14.0'
