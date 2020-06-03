@@ -51,6 +51,7 @@ gem 'sidekiq', '~> 6.0', '>= 6.0.7'
 
 # Linting
 gem 'rubocop'
+gem 'mocha', '~> 0.14.0'
 
 # Postgres
 gem 'pg'
