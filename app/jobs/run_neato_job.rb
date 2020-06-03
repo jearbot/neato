@@ -23,5 +23,6 @@ class RunNeatoJob < ApplicationJob
     string_to_sign = "#{AccessToken::ROBOT_SERIAL.downcase}\n#{@date}\n#{body}"
 
     @signature = OpenSSL::HMAC.hexdigest('sha256', AccessToken::ROBOT_SECRET, string_to_sign)
+    Rails.logger.info("RunNeatoJob got signature: #{@signature}")
   end
 end
