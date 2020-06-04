@@ -19,9 +19,7 @@ class AccessToken < ApplicationRecord
 
   def self.oauth
     @client = OAuth2::Client.new(CLIENT_ID, CLIENT_SECRET_KEY, :site => NEATO_API_ENDPOINT)
-
     response = @client.auth_code.authorize_url(:redirect_uri => REDIRECT_URI, :scope => "control_robots public_profile maps")
-
     response = response.gsub!('/oauth/','/oauth2/')
   end
 

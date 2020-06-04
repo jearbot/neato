@@ -8,7 +8,14 @@ class RefreshTokenJob < ApplicationJob
       }
     )
 
+    access_token = response["access_token"]
+    refresh_token = response["refresh_token"]
+    expires_in = response["expires_in"] / 60 / 60 / 24 - 1
+
     AccessToken.last.destroy
-    AccessToken.create(key: key, expires_at: Time.zone.now + 4000.hours)
+    RefreshToken.last.destroy
+
+    AccessToken.create(key: access_token, expires_at: Time.zone.now + expires_in.days)
+    RefreshToken.create(key: refresh_token)
   end
 end
