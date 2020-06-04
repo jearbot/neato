@@ -8,6 +8,9 @@ class RefreshTokenJob < ApplicationJob
       }
     )
 
+    # expires_in returns seconds
+    # dividing by 60 60 and 24 to get days
+    # subtracting one to be safe
     access_token = response["access_token"]
     refresh_token = response["refresh_token"]
     expires_in = response["expires_in"] / 60 / 60 / 24 - 1
