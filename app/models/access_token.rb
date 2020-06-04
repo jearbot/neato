@@ -17,7 +17,7 @@ class AccessToken < ApplicationRecord
   ACCESS_TOKEN = AccessToken.last&.key
   REFRESH_TOKEN = RefreshToken.last&.key
 
-  def self.oauth2
+  def self.oauth
     @client = OAuth2::Client.new(CLIENT_ID, CLIENT_SECRET_KEY, :site => NEATO_API_ENDPOINT)
 
     response = @client.auth_code.authorize_url(:redirect_uri => REDIRECT_URI, :scope => "control_robots public_profile maps")
@@ -26,7 +26,7 @@ class AccessToken < ApplicationRecord
   end
 
   def self.get_access_token(auth_key)
-    response = HTTParty.post(API_ENDPOINT,
+    response = HTTParty.post(BEEHIVE_API_ENDPOINT,
       body: {
         "grant_type": "authorization_code",
         "client_id": CLIENT_ID,
