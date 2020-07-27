@@ -1,4 +1,17 @@
 class RunNeatoJob < ApplicationJob
+  # THese are the available services for running commands
+  #   "findMe"=>"basic-1"
+  #   "generalInfo"=>"basic-1"
+  #   "houseCleaning"=>"basic-3"
+  #   "IECTest"=>"advanced-1"
+  #   "logCopy"=>"basic-1"
+  #   "maps"=>"macro-1"
+  #   "preferences"=>"basic-2"
+  #   "schedule"=>"basic-1"
+  #   "softwareUpdate"=>"basic-1"
+  #   "spotCleaning"=>"basic-3"
+  #   "wifi"=>"basic-1"
+
   def perform
     @date = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S GMT")
 

@@ -40,9 +40,9 @@ class AccessToken < ApplicationRecord
       headers: {
         'Accept' => HEADER_URL,
         'Authorization' =>  "Bearer " + "#{ACCESS_TOKEN}",
-      }
+      },
+      body: JSON.dump({"reqId":"1", "cmd":"getRobotState"})
     )
-    body = '{"reqId":"1", "cmd":"getRobotState"}'
   end
 
   def self.get_public_profile
