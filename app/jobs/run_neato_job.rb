@@ -1,5 +1,5 @@
 class RunNeatoJob < ApplicationJob
-  # THese are the available services for running commands
+  # These are the available services for running commands
   #   "findMe"=>"basic-1"
   #   "generalInfo"=>"basic-1"
   #   "houseCleaning"=>"basic-3"
@@ -13,26 +13,35 @@ class RunNeatoJob < ApplicationJob
   #   "wifi"=>"basic-1"
 
   def perform
-    @date = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S GMT")
-
+    set_map_id
     get_signature
     response = HTTParty.post("https://nucleo.neatocloud.com:4443/vendors/neato/robots/#{AccessToken::ROBOT_SERIAL}/messages",
       headers: {
         'Accept' => 'application/vnd.neato.nucleo.v1',
-        'Date' => @date,
+        'Date' => date,
         'Authorization' =>  "NEATOAPP " + @signature,
       },
-      body: JSON.dump({ reqId: "13", cmd: "startCleaning", params: { category: 4, mode: 2, navigationMode: 1, mapId: '2020-03-08T15:36:19Z' }})
+      body: JSON.dump({ reqId: "13", cmd: "startCleaning", params: { category: 4, mode: 2, navigationMode: 1, mapId: "#{@map_id}" }})
     )
   end
 
   private
 
   def get_signature
-    body = JSON.dump({ reqId: "13", cmd: "startCleaning", params: { category: 4, mode: 2, navigationMode: 1, mapId: '2020-03-08T15:36:19Z' }})
+    body = JSON.dump({ reqId: "13", cmd: "startCleaning", params: { category: 4, mode: 2, navigationMode: 1, mapId: "#{@map_id}" }})
 
-    string_to_sign = "#{AccessToken::ROBOT_SERIAL.downcase}\n#{@date}\n#{body}"
+    string_to_sign = "#{AccessToken::ROBOT_SERIAL.downcase}\n#{date}\n#{body}"
 
     @signature = OpenSSL::HMAC.hexdigest('sha256', AccessToken::ROBOT_SECRET, string_to_sign)
+  end
+
+  def set_map_id
+    response = AccessToken.get_persistent_map_id
+    response = JSON.parse(response.body)
+    @map_id = response.first['id']
+  end
+
+  def date
+    @date ||= Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S GMT")
   end
 end
