@@ -23,6 +23,10 @@ class RunNeatoJob < ApplicationJob
       },
       body: JSON.dump({ reqId: "13", cmd: "startCleaning", params: { category: 4, mode: 2, navigationMode: 1, mapId: "#{@map_id}" }})
     )
+
+    response = response = JSON.parse(response.body)
+
+    Rails.logger.info("#{self.class}:::#{response}")
   end
 
   private
