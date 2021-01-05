@@ -22,7 +22,7 @@ class RunNeatoJob < ApplicationJob
         'Authorization' =>  "NEATOAPP " + @signature,
       },
       body: JSON.dump({ reqId: "13", cmd: "startCleaning", params: { category: 4, mode: 2, navigationMode: 1, mapId: "#{@map_id}" }}),
-      timeout: 2
+      timeout: 10
     )
 
     response = response = JSON.parse(response.body)
