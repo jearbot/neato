@@ -26,7 +26,7 @@ class RunNeatoJob < ApplicationJob
 
     response = response = JSON.parse(response.body)
 
-    Rails.logger.info("#{self.class}:::#{response}")
+    Rails.logger.info("ERROR REPORT FOR #{self.class}:::#{response}")
   end
 
   private
