@@ -6,7 +6,7 @@ class AccessToken < ApplicationRecord
   scope :needs_renewal, -> { where('expires_at <= ?', Time.zone.now) }
 
   ROBOT_SERIAL = Rails.application.config.serial_number.freeze
-  ROBOT_SECRET = AccessToken.get_robot_secret_key.freeze
+  ROBOT_SECRET = self.get_robot_secret_key.freeze
   HEADER_URL = "application/vnd.neato.beehive.v1+json".freeze
   BEEHIVE_API_ENDPOINT = "https://beehive.neatocloud.com/oauth2/token".freeze
   CLIENT_ID = Rails.application.config.client_id.freeze
