@@ -30,7 +30,7 @@ class Robot < ApplicationRecord
     response = HTTParty.get("#{NEATO_API_ENDPOINT}/users/me/robots",
       headers: {
         'Accept' => HEADER_URL,
-        'Authorization' =>  "Bearer " + "#{ACCESS_TOKEN}",
+        'Authorization' =>  "Bearer " + "#{AccessToken::ACCESS_TOKEN}",
       },
       body: JSON.dump({"reqId":"1", "cmd":"getRobotState"})
     )
@@ -40,7 +40,7 @@ class Robot < ApplicationRecord
     response = HTTParty.get("#{NEATO_API_ENDPOINT}/users/me",
       headers: {
         'Accept' => HEADER_URL,
-        'Authorization' =>  "Bearer " + "#{ACCESS_TOKEN}",
+        'Authorization' =>  "Bearer " + "#{AccessToken::ACCESS_TOKEN}",
       }
     )
   end
@@ -49,7 +49,7 @@ class Robot < ApplicationRecord
     response = HTTParty.get("#{NEATO_API_ENDPOINT}/users/me/robots/#{ROBOT_SERIAL}/persistent_maps",
       headers: {
         'Accept' => HEADER_URL,
-        'Authorization' =>  "Bearer " + "#{ACCESS_TOKEN}",
+        'Authorization' =>  "Bearer " + "#{AccessToken::ACCESS_TOKEN}",
       }
     )
   end
@@ -61,7 +61,7 @@ class Robot < ApplicationRecord
 
     string_to_sign = "#{ROBOT_SERIAL.downcase}\n#{@date}\n#{body}"
 
-    @signature = OpenSSL::HMAC.hexdigest('sha256', ROBOT_SECRET, string_to_sign)
+    @signature = OpenSSL::HMAC.hexdigest('sha256', Robot.get_robot_secret_key, string_to_sign)
 
     response = HTTParty.post("https://nucleo.neatocloud.com:4443/vendors/neato/robots/#{ROBOT_SERIAL}/messages",
       headers: {
