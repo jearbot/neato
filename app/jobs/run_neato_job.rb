@@ -13,7 +13,7 @@ class RunNeatoJob < ApplicationJob
   #   "wifi"=>"basic-1"
 
   def perform
-    response = HTTParty.post("https://nucleo.neatocloud.com:4443/vendors/neato/robots/#{AccessToken::ROBOT_SERIAL}/messages",
+    response = HTTParty.post("https://nucleo.neatocloud.com:4443/vendors/neato/robots/#{Robot::ROBOT_SERIAL}/messages",
       headers: {
         'Accept' => 'application/vnd.neato.nucleo.v1',
         'Date' => date,
@@ -31,7 +31,7 @@ class RunNeatoJob < ApplicationJob
   private
 
   def signature
-    @signature ||= OpenSSL::HMAC.hexdigest('sha256', AccessToken::ROBOT_SECRET, string_to_sign)
+    @signature ||= OpenSSL::HMAC.hexdigest('sha256', AccessToken.get_robot_secret_key, string_to_sign)
   end
 
   def body
@@ -39,11 +39,11 @@ class RunNeatoJob < ApplicationJob
   end
 
   def string_to_sign
-    string_to_sign ||= "#{AccessToken::ROBOT_SERIAL.downcase}\n#{date}\n#{body}"
+    string_to_sign ||= "#{Robot::ROBOT_SERIAL.downcase}\n#{date}\n#{body}"
   end
 
   def map_id
-    response = AccessToken.get_persistent_map_id
+    response = Robot.get_persistent_map_id
     response = JSON.parse(response.body)
     @map_id ||= response.first['id']
   end
