@@ -7,9 +7,6 @@ class Robot < ApplicationRecord
   REDIRECT_URI = "https://atx.luac.es".freeze
   SCOPE = 'control_robots public_profile maps'.freeze
   NEATO_API_ENDPOINT = "https://apps.neatorobotics.com/".freeze
-  ACCESS_TOKEN = AccessToken.last&.key
-  REFRESH_TOKEN = RefreshToken.last&.key
-
 
   def self.oauth
     @client = OAuth2::Client.new(CLIENT_ID, CLIENT_SECRET_KEY, :site => NEATO_API_ENDPOINT)
