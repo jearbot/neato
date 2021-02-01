@@ -72,5 +72,4 @@ class Robot < ApplicationRecord
       body: JSON.dump({ reqId: "13", cmd: "getGeneralInfo"})
     )
   end
-
 end
