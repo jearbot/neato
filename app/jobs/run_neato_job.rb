@@ -31,7 +31,7 @@ class RunNeatoJob < ApplicationJob
   private
 
   def signature
-    @signature ||= OpenSSL::HMAC.hexdigest('sha256', AccessToken.get_robot_secret_key, string_to_sign)
+    @signature ||= OpenSSL::HMAC.hexdigest('sha256', Robot.get_robot_secret_key, string_to_sign)
   end
 
   def body
