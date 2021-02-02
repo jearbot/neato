@@ -14,7 +14,6 @@ class RunNeatoJob < ApplicationJob
 
   def perform
     get_signature
-    @date = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S GMT")
     response = HTTParty.post("https://nucleo.neatocloud.com:4443/vendors/neato/robots/#{Robot::ROBOT_SERIAL}/messages",
       headers: {
         'Accept' => 'application/vnd.neato.nucleo.v1',
@@ -33,16 +32,20 @@ class RunNeatoJob < ApplicationJob
   private
 
   def get_signature
-    string_to_sign = "#{Robot::ROBOT_SERIAL.downcase}\n#{@date}\n#{body}"
+    string_to_sign = "#{Robot::ROBOT_SERIAL.downcase}\n#{date}\n#{body}"
     @signature = OpenSSL::HMAC.hexdigest('sha256', Robot.get_robot_secret_key, string_to_sign)
   end
 
   def string_to_sign
-    string_to_sign ||= "#{Robot::ROBOT_SERIAL.downcase}\n#{@date}\n#{body}"
+    string_to_sign ||= "#{Robot::ROBOT_SERIAL.downcase}\n#{date}\n#{body}"
   end
 
   def body
     @body ||= JSON.dump({ reqId: "13", cmd: "startCleaning", params: { category: 4, mode: 2, navigationMode: 1, mapId: "#{map_id}" }})
+  end
+
+  def date
+    @date ||= Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S GMT")
   end
 
   def map_id
