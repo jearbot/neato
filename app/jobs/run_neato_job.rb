@@ -13,11 +13,12 @@ class RunNeatoJob < ApplicationJob
   #   "wifi"=>"basic-1"
 
   def perform
+    get_signature
     response = HTTParty.post("https://nucleo.neatocloud.com:4443/vendors/neato/robots/#{Robot::ROBOT_SERIAL}/messages",
       headers: {
         'Accept' => 'application/vnd.neato.nucleo.v1',
         'Date' => date,
-        'Authorization' =>  "NEATOAPP " + signature,
+        'Authorization' =>  "NEATOAPP " + @signature,
       },
       body: JSON.dump({ reqId: "13", cmd: "startCleaning", params: { category: 4, mode: 2, navigationMode: 1, mapId: "#{map_id}" }}),
       timeout: 30
@@ -30,12 +31,10 @@ class RunNeatoJob < ApplicationJob
 
   private
 
-  def signature
-    @signature ||= OpenSSL::HMAC.hexdigest('sha256', Robot.get_robot_secret_key, string_to_sign)
-  end
-
-  def body
-    @body ||= JSON.dump({ reqId: "13", cmd: "startCleaning", params: { category: 4, mode: 2, navigationMode: 1, mapId: "#{map_id}" }})
+  def get_signature
+    body = JSON.dump({ reqId: "13", cmd: "startCleaning", params: { category: 4, mode: 2, navigationMode: 1, mapId: "#{@map_id}" }})
+    string_to_sign = "#{AccessToken::ROBOT_SERIAL.downcase}\n#{date}\n#{body}"
+    @signature = OpenSSL::HMAC.hexdigest('sha256', AccessToken::ROBOT_SECRET, string_to_sign)
   end
 
   def string_to_sign
