@@ -34,6 +34,8 @@ class Robot < ApplicationRecord
       },
       body: JSON.dump({"reqId":"1", "cmd":"getRobotState"})
     )
+
+    JSON.parse(response.body).first["secret_key"]
   end
 
   def self.get_public_profile
